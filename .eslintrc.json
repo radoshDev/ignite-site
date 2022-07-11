@@ -96,7 +96,9 @@
 					"ProcessEnv": true,
 					"env": true,
 					"props": true,
-					"i": true
+					"i": true,
+					"params": true,
+					"Params": true
 				}
 			}
 		],

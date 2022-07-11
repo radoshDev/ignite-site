@@ -1,6 +1,6 @@
 declare namespace NodeJS {
 	interface ProcessEnv {
 		NODE_ENV: "development" | "production" | "test"
-		CUSTOM_VARIABLE: string
+		REACT_APP_RAWG_API: string
 	}
 }
