@@ -4,21 +4,28 @@ import { getFormattedDate } from "./getFormattedDate"
 type Params = {
 	dates: `${string},${string}`
 	ordering: string
-	page_size: number
 }
 
 export const getGamesParams = (sortBy: SortBy): Params => {
 	const currentDate = getFormattedDate()
 	const lastYear = getFormattedDate("last-year")
 	const nextYear = getFormattedDate("next-year")
-	const pageSize = 10
 
 	switch (sortBy) {
 		case "new":
-			return { dates: `${lastYear},${currentDate}`, ordering: "-released", page_size: pageSize }
+			return {
+				dates: `${lastYear},${currentDate}`,
+				ordering: "-released",
+			}
 		case "upcoming":
-			return { dates: `${currentDate},${nextYear}`, ordering: "-added", page_size: pageSize }
+			return {
+				dates: `${currentDate},${nextYear}`,
+				ordering: "-rating",
+			}
 		default:
-			return { dates: `${lastYear},${currentDate}`, ordering: "-rating", page_size: pageSize }
+			return {
+				dates: `${lastYear},${currentDate}`,
+				ordering: "-rating",
+			}
 	}
 }

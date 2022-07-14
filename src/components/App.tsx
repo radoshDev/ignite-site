@@ -1,21 +1,21 @@
 import { ReactElement } from "react"
 import { Routes, Route } from "react-router-dom"
-import api from "../api"
+import GameDetails from "../pages/GameDetails"
 import Home from "../pages/Home"
+import Search from "../pages/Search"
 import GlobalStyles from "../styles/GlobalStyles"
+import { Navigation } from "./Navigation"
 
 const App = (): ReactElement => {
-	const { data, isLoading } = api.useGetGamesQuery("popular")
-	console.log(data)
-
 	return (
 		<>
 			<GlobalStyles />
 			<div className="app">
+				<Navigation />
 				<Routes>
 					<Route path="/" element={<Home />} />
-					<Route path="/search" element={<h1>Search</h1>} />
-					<Route path="/game/:id" element={<h1>Game</h1>} />
+					<Route path="/search" element={<Search />} />
+					<Route path="/game/:id" element={<GameDetails />} />
 				</Routes>
 			</div>
 		</>

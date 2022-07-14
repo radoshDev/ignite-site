@@ -1,49 +1,74 @@
-import { FC } from "react"
-import { motion } from "framer-motion"
-import styled from "styled-components"
-import { Link } from "react-router-dom"
+import { FC, MouseEventHandler, useState, memo } from "react"
+import { AnimatePresence, motion } from "framer-motion"
+import styled from "styled-components/macro"
 import { getImagePath } from "../../utils/getImagePath"
+import { Game as IGame } from "../../types/games"
+import { GameDetails } from "../GameDetails"
 
 const S = {
-	Game: styled(motion.div)`
+	Game: styled(motion.a)`
 		min-height: 30vh;
 		box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.2);
 		border-radius: 1rem;
 		text-align: center;
 		overflow: hidden;
-		padding-top: 1.5rem;
-		h3 {
+		display: flex;
+		flex-direction: column;
+
+		.title {
 			display: inline-block;
+			padding: 1.5rem 0.5rem 1rem;
+			flex: 1;
 		}
-		p {
-			padding: 1rem 0 0.5rem;
+		.release-date {
+			padding-bottom: 1rem;
 		}
-		img {
-			width: 100%;
-			height: 40vh;
-			object-fit: cover;
+		& > img {
 			display: block;
+			max-height: 300px;
+			object-fit: cover;
 		}
 	`,
 }
 
 type Props = {
-	name: string
-	released: string
-	image: string
-	id: string
+	game: IGame
 }
 
-const Game: FC<Props> = ({ name, released, image, id }) => {
+const Game: FC<Props> = ({ game }) => {
+	const { name, released, background_image: image, id } = game
+	const [isShowDetails, setIsShowDetails] = useState(false)
+	const { location } = window
+	const [backHistory] = useState(location.pathname + location.search)
+	const href = `/game/${id}`
+
+	const handleShowDetails: MouseEventHandler<HTMLAnchorElement> = event => {
+		event.preventDefault()
+		window.history.replaceState(null, name, href)
+		setIsShowDetails(true)
+		document.body.style.overflow = "hidden"
+	}
+
+	const handleCloseDetails = (): void => {
+		setIsShowDetails(false)
+		window.history.replaceState(null, "Games", backHistory)
+		document.body.style.overflow = "auto"
+	}
+
 	return (
-		<S.Game>
-			<Link to={`/game/${id}`} replace>
-				<motion.h3 layoutId={`title${id}`}>{name}</motion.h3>
-				<p>{released}</p>
-				<motion.img layoutId={`image${id}`} src={getImagePath(image, 640)} alt={name} />
-			</Link>
-		</S.Game>
+		<>
+			<S.Game href={href} onClick={handleShowDetails}>
+				<h3 className="title">{name}</h3>
+				<p className="release-date">{released}</p>
+				<img src={getImagePath(image, 640)} alt={name} />
+			</S.Game>
+			<AnimatePresence>
+				{isShowDetails && (
+					<GameDetails game={game} closeDetails={handleCloseDetails} />
+				)}
+			</AnimatePresence>
+		</>
 	)
 }
 
-export default Game
+export default memo(Game)

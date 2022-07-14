@@ -12,7 +12,7 @@ export interface Game {
 	slug: string
 	name: string
 	playtime: number
-	platforms: Platform2[]
+	platforms: Platform2[] | null
 	stores: Store[]
 	released: string
 	tba: boolean

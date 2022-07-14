@@ -30,8 +30,16 @@
 		"ecmaVersion": "latest",
 		"sourceType": "module"
 	},
-	"plugins": ["react", "@typescript-eslint", "prettier", "promise", "regexp", "unicorn"],
+	"plugins": [
+		"react",
+		"@typescript-eslint",
+		"prettier",
+		"promise",
+		"regexp",
+		"unicorn"
+	],
 	"rules": {
+		"camelcase": "off",
 		"no-underscore-dangle": ["error", { "allow": ["_id", "_key", "_ref"] }],
 		"prettier/prettier": "warn",
 		"quotes": ["warn", "double", { "allowTemplateLiterals": true }],
@@ -59,7 +67,10 @@
 			}
 		],
 		"@typescript-eslint/prefer-ts-expect-error": 2,
-		"@typescript-eslint/explicit-function-return-type": [2, { "allowExpressions": true }],
+		"@typescript-eslint/explicit-function-return-type": [
+			2,
+			{ "allowExpressions": true }
+		],
 		"@typescript-eslint/no-floating-promises": 2,
 		"import/extensions": [
 			"error",
@@ -71,11 +82,15 @@
 			}
 		],
 		"import/prefer-default-export": "off",
-		"react/function-component-definition": [2, { "namedComponents": "arrow-function" }],
+		"react/function-component-definition": [
+			2,
+			{ "namedComponents": "arrow-function" }
+		],
 		"react/jsx-filename-extension": [1, { "extensions": [".tsx", ".ts"] }],
 		"react/jsx-props-no-spreading": "off",
 		"react/no-array-index-key": "warn",
 		"react/react-in-jsx-scope": "off",
+		"react/require-default-props": "off",
 		"no-restricted-exports": "off",
 		"unicorn/filename-case": [
 			"error",
@@ -102,7 +117,8 @@
 				}
 			}
 		],
-		"unicorn/prefer-query-selector": "off"
+		"unicorn/prefer-query-selector": "off",
+		"unicorn/no-null": "off"
 	},
 	"settings": {
 		"import/resolver": {

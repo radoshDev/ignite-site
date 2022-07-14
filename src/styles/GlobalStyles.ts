@@ -27,10 +27,14 @@ export default createGlobalStyle`
 	p {
 		color: #696969;
 		font-size: 1.2rem;
-		line-height: 200%;
+		line-height: 1.5;
 	}
 	a {
 		text-decoration: none;
 		color: inherit;
+	}
+	img {
+		max-width: 100%;
+    height: auto;
 	}
 `
