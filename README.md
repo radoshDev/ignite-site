@@ -13,3 +13,6 @@ This is an app for searching games provided by [RAWG API](https://rawg.io/apidoc
 - for state managament used the [Redux](https://redux.js.org/);
 - for caching used [RTK Query](https://redux-toolkit.js.org/rtk-query/overview);
 - for styling has been exploited [styled-components](https://styled-components.com);
+
+## Site
+https://ignite-site.vercel.app/
