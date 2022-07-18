@@ -1,8 +1,9 @@
 import { FC, useState } from "react"
 import styled from "styled-components"
+import { useAppSelector } from "../../app/hooks"
 import { useLazyGetGamesQuery } from "../../app/slices/gameSlice"
 import { GAME_PAGE_SIZE } from "../../constants"
-import { useGetSearchParams } from "../../hooks/useGetSearchParams"
+// import { useParamsOptions } from "../../hooks/useOptions"
 import Button from "../ui/Button"
 
 const S = {
@@ -20,12 +21,12 @@ type Props = {
 }
 
 const MoreButton: FC<Props> = ({ gamesCount }) => {
-	const { searchText, sortBy } = useGetSearchParams()
+	const { search: searchText, sort } = useAppSelector(s => s.options)
 	const [page, setPage] = useState(1)
 	const [loadMoreGames, { isFetching: isMoreFetching }] = useLazyGetGamesQuery()
 	const handleClickMore = async (): Promise<void> => {
 		const nextPage = page + 1
-		await loadMoreGames({ page: nextPage, sortBy, searchText })
+		await loadMoreGames({ page: nextPage, sortBy: sort.value, searchText })
 		setPage(nextPage)
 	}
 	const maxPages = Math.ceil(gamesCount / GAME_PAGE_SIZE)

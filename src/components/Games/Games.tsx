@@ -1,7 +1,8 @@
 import { FC, ReactElement } from "react"
 import styled from "styled-components/macro"
+import { useAppSelector } from "../../app/hooks"
 import { useGetGamesQuery } from "../../app/slices/gameSlice"
-import { useGetSearchParams } from "../../hooks/useGetSearchParams"
+// import { useParamsOptions } from "../../hooks/useOptions"
 import GamesList from "./GamesList"
 import MoreButton from "./MoreButton"
 
@@ -13,6 +14,7 @@ const S = {
 		}
 		& > .title {
 			font-size: 2rem;
+			margin-bottom: 2rem;
 			@media (min-width: 640px) {
 				font-size: 3rem;
 			}
@@ -21,15 +23,19 @@ const S = {
 }
 
 const Games: FC = () => {
-	const { searchText, sortBy } = useGetSearchParams()
+	const { search: searchText, sort, isLoading } = useAppSelector(s => s.options)
+
 	const {
 		data: gamesData,
-		isLoading,
+		isFetching,
 		isError,
-	} = useGetGamesQuery({ page: 1, searchText, sortBy })
+	} = useGetGamesQuery(
+		{ page: 1, searchText, sortBy: sort.value },
+		{ skip: isLoading }
+	)
 
 	let content: ReactElement
-	if (isLoading) {
+	if (isFetching) {
 		content = <p>Loading...</p>
 	} else if (isError) {
 		content = <p style={{ color: "red" }}>Something went wrong</p>
@@ -46,7 +52,7 @@ const Games: FC = () => {
 
 	return (
 		<S.Games>
-			<h2 className="title">Upcoming</h2>
+			<h2 className="title">{sort.label}</h2>
 			<div className="games_wrapper">{content}</div>
 		</S.Games>
 	)

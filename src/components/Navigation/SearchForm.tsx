@@ -1,7 +1,16 @@
-import { FC, useState, ChangeEventHandler, FormEventHandler } from "react"
-import { useNavigate, useSearchParams } from "react-router-dom"
+import {
+	FC,
+	useState,
+	ChangeEventHandler,
+	FormEventHandler,
+	useEffect,
+} from "react"
+import { useSearchParams } from "react-router-dom"
 import styled from "styled-components/macro"
+import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import { useLazyGetSearchGamesQuery } from "../../app/slices/gameSlice"
+import { selectSearch, setSearch } from "../../app/slices/optionsSlice"
+import { addUrlSearch } from "../../utils/addUrlSearch"
 import Button from "../ui/Button"
 
 const S = {
@@ -23,10 +32,20 @@ const S = {
 }
 
 const SearchForm: FC = () => {
+	const dispatch = useAppDispatch()
+	const selectedSearch = useAppSelector(selectSearch)
 	const [params] = useSearchParams()
-	const [searchValue, setSearchValue] = useState(params.get("word") || "")
+	const [searchValue, setSearchValue] = useState("")
 	const [searchGames, { isFetching }] = useLazyGetSearchGamesQuery()
-	const navigate = useNavigate()
+
+	useEffect(() => {
+		const paramsSearchValue = params.get("searchText")
+
+		if (paramsSearchValue) {
+			dispatch(setSearch(paramsSearchValue))
+			setSearchValue(paramsSearchValue)
+		}
+	}, [])
 
 	const handleInputChange: ChangeEventHandler<HTMLInputElement> = event => {
 		const { value } = event.target
@@ -34,10 +53,10 @@ const SearchForm: FC = () => {
 	}
 	const handleSubmit: FormEventHandler<HTMLFormElement> = async event => {
 		event.preventDefault()
-		if (searchValue) {
-			navigate(`search?word=${searchValue}`, { replace: true })
-			await searchGames(searchValue)
-		}
+		if (searchValue === selectedSearch) return
+		addUrlSearch("searchText", searchValue)
+		dispatch(setSearch(searchValue))
+		await searchGames(searchValue)
 	}
 	return (
 		<S.SearchForm onSubmit={handleSubmit}>

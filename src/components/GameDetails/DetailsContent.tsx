@@ -20,7 +20,10 @@ const S = {
 		.description {
 			margin-bottom: 2rem;
 			p {
-				margin-bottom: 0.5rem;
+				margin: 0.5rem 0;
+			}
+			h3 {
+				margin: 1rem 0;
 			}
 		}
 	`,
@@ -35,28 +38,21 @@ type Props = {
 }
 
 const DetailsContent: FC<Props> = ({ game }) => {
-	console.log(game)
+	const { background_image, description, id, name, platforms, rating } = game
 
 	return (
 		<S.DetailsContent>
-			<Statistic
-				name={game.name}
-				platforms={game.platforms}
-				rating={game.rating}
-			/>
-			<div className="image-wrapper">
-				<Image
-					src={game.background_image}
-					alt={game.name}
-					width={1370}
-					height={856}
-				/>
-			</div>
+			<Statistic name={name} platforms={platforms} rating={rating} />
+			{background_image && (
+				<div className="image-wrapper">
+					<Image src={background_image} alt={name} width={1370} height={856} />
+				</div>
+			)}
 			<div
 				className="description"
-				dangerouslySetInnerHTML={{ __html: game.description }}
+				dangerouslySetInnerHTML={{ __html: description }}
 			/>
-			<GameGallery gameId={game.id} />
+			<GameGallery gameId={id} />
 		</S.DetailsContent>
 	)
 }

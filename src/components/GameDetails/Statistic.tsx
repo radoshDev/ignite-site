@@ -2,7 +2,6 @@ import { FC } from "react"
 import styled from "styled-components/macro"
 import { Game } from "../../types/games"
 import RatingStars from "../ui/RatingStars"
-import PlatformIcon from "./PlatformIcon"
 import Platforms from "./Platforms"
 
 const S = {

@@ -5,3 +5,5 @@ export type GetGamesArgument = {
 	page: number
 	searchText: string
 }
+
+export type SortOption = { value: SortBy; label: string }

@@ -4,6 +4,7 @@ import styled from "styled-components/macro"
 import { getImagePath } from "../../utils/getImagePath"
 import { Game as IGame } from "../../types/games"
 import { GameDetails } from "../GameDetails"
+import imagePlaceholder from "../../assets/img/no-image-9-16.svg"
 
 const S = {
 	Game: styled(motion.a)`
@@ -18,7 +19,6 @@ const S = {
 		.title {
 			display: inline-block;
 			padding: 1.5rem 0.5rem 1rem;
-			flex: 1;
 		}
 		.release-date {
 			padding-bottom: 1rem;
@@ -27,6 +27,7 @@ const S = {
 			display: block;
 			max-height: 300px;
 			object-fit: cover;
+			flex: 1;
 		}
 	`,
 }
@@ -60,7 +61,7 @@ const Game: FC<Props> = ({ game }) => {
 			<S.Game href={href} onClick={handleShowDetails}>
 				<h3 className="title">{name}</h3>
 				<p className="release-date">{released}</p>
-				<img src={getImagePath(image, 640)} alt={name} />
+				<img src={getImagePath(image, 640) || imagePlaceholder} alt={name} />
 			</S.Game>
 			<AnimatePresence>
 				{isShowDetails && (
